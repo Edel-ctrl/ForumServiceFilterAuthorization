@@ -6,11 +6,10 @@ import telran.java57.forum.accounting.dto.UserDto;
 import telran.java57.forum.accounting.dto.UserRegisterDto;
 
 public interface UserAccountService {
+
     UserDto register(UserRegisterDto userRegisterDto);
 
     UserDto getUser(String name);
-
-//    void changePassword(String name, String newPassword);
 
     UserDto removeUser(String login);
 

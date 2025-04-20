@@ -22,7 +22,7 @@ public class UpdatePostFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (checkEndpoint(request.getMethod(), request.getServletPath())) {
+        if ( checkEndpoint(request.getMethod(), request.getServletPath()) ) {
             String login = request.getUserPrincipal().getName();
             String[] parts = request.getServletPath().split("/");
 
@@ -30,7 +30,7 @@ public class UpdatePostFilter implements Filter {
             String postId = parts[3];
 
             Post post = postRepository.findById(postId).orElse(null);
-            if (post == null || !login.equalsIgnoreCase(post.getAuthor())) {
+            if ( post == null || ! login.equalsIgnoreCase(post.getAuthor()) ) {
                 response.sendError(403, "Permission denied");
                 return;
             }

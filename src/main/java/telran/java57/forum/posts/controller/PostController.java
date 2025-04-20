@@ -44,7 +44,7 @@ public class PostController {
     @PutMapping("post/{id}/comment/{author}")
     public PostDto addComment(@PathVariable String id, @PathVariable String author,
                               @RequestBody NewCommentDto newCommentDto) {
-        return postService.addComment(id, author,newCommentDto);
+        return postService.addComment(id, author, newCommentDto);
     }
 
     @PostMapping("posts/tags")

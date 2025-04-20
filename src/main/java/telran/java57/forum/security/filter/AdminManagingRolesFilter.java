@@ -22,15 +22,17 @@ public class AdminManagingRolesFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (checkEndpoint(request.getMethod(),request.getServletPath())) {
+        if ( checkEndpoint(request.getMethod(), request.getServletPath()) ) {
             String principal = request.getUserPrincipal().getName();
-            UserAccount userAccount = userAccountRepository.findById(principal).get();
-            if(!userAccount.getRoles().contains(Role.ADMINISTRATOR)){
+//            UserAccount userAccount = userAccountRepository.findById(principal).get();
+            UserAccount userAccount = userAccountRepository.findById(principal)
+                    .orElseThrow(() -> new RuntimeException("User not found" + principal));
+            if ( ! userAccount.getRoles().contains(Role.ADMINISTRATOR) ) {
                 response.sendError(403, "You are not allowed to access this resource");
                 return;
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     private boolean checkEndpoint(String method, String servletPath) {

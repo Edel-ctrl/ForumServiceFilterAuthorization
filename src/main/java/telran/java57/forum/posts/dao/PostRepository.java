@@ -7,10 +7,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
-public interface PostRepository extends MongoRepository<Post,String> {
+public interface PostRepository extends MongoRepository<Post, String> {
 
     Stream<Post> findPostsByAuthorIgnoreCase(String author);
-
 
     Stream<Post> findPostsByTagsInIgnoreCase(List<String> tags);
 

@@ -24,7 +24,7 @@ public class DeletePostFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (checkEndpoint(request.getMethod(), request.getServletPath())) {
+        if ( checkEndpoint(request.getMethod(), request.getServletPath()) ) {
             User user = (User) request.getUserPrincipal();
             String[] parts = request.getServletPath().split("/");
             String postId = parts[3]; // /forum/post/{postId}
@@ -33,7 +33,7 @@ public class DeletePostFilter implements Filter {
             boolean isModerator = user.getRoles().contains(Role.MODERATOR.name());
             boolean isOwner = post != null && user.getName().equalsIgnoreCase(post.getAuthor());
 
-            if (post == null || (!isOwner && !isModerator)) {
+            if ( post == null || (! isOwner && ! isModerator) ) {
                 response.sendError(403, "Permission denied");
                 return;
             }

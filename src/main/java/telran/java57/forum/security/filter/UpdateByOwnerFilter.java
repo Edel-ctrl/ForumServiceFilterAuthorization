@@ -16,16 +16,16 @@ public class UpdateByOwnerFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (checkEndpoint(request.getMethod(),request.getServletPath())) {
+        if ( checkEndpoint(request.getMethod(), request.getServletPath()) ) {
             String login = request.getUserPrincipal().getName();
             String[] parts = request.getServletPath().split("/");
-            String owner = parts[parts.length-1];
-            if(!login.equalsIgnoreCase(owner)){
-                response.sendError(403,"You are not owner");
+            String owner = parts[parts.length - 1];
+            if ( ! login.equalsIgnoreCase(owner) ) {
+                response.sendError(403, "You are not owner");
                 return;
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     private boolean checkEndpoint(String method, String servletPath) {

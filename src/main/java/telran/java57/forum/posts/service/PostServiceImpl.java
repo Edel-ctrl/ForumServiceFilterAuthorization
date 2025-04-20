@@ -32,14 +32,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto findPostById(String id) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException :: new);
         return modelMapper.map(post, PostDto.class);
     }
 
 
     @Override
     public PostDto removePost(String id) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException :: new);
         postRepository.delete(post);
         return modelMapper.map(post, PostDto.class);
     }
@@ -47,18 +47,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(String id, NewPostDto newPostDto) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException :: new);
         String content = newPostDto.getContent();
-        if (content != null) {
+        if ( content != null ) {
             post.setContent(content);
         }
         String title = newPostDto.getTitle();
-        if (title != null) {
+        if ( title != null ) {
             post.setTitle(title);
         }
         Set<String> tags = newPostDto.getTags();
-        if (tags != null) {
-            tags.forEach(post::addTag);
+        if ( tags != null ) {
+            tags.forEach(post :: addTag);
         }
         post = postRepository.save(post);
         return modelMapper.map(post, PostDto.class);
@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto addComment(String id, String author, NewCommentDto newCommentDto) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException :: new);
         Comment comment = new Comment(newCommentDto.getMessage(), author);
         post.addComment(comment);
         post = postRepository.save(post);
@@ -89,14 +89,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Iterable<PostDto> findPostsByPeriod(DatePeriodDto datePeriodDto) {
-        return postRepository.findPostsByDateCreatedBetween(datePeriodDto.getDateFrom().atStartOfDay(),datePeriodDto.getDateTo(). atTime(23,59,59))
+        return postRepository.findPostsByDateCreatedBetween(datePeriodDto.getDateFrom().atStartOfDay(), datePeriodDto.getDateTo().atTime(23, 59, 59))
                 .map(post -> modelMapper.map(post, PostDto.class))
                 .toList();
     }
 
     @Override
     public void addLike(String id) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException :: new);
         post.addLike();
         postRepository.save(post);
     }

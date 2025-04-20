@@ -31,14 +31,14 @@ public class AuthenticationFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if(checkEndpoint(request.getMethod(),request.getServletPath())) {
+        if ( checkEndpoint(request.getMethod(), request.getServletPath()) ) {
             try {
                 String[] credentials = getCredentials(request.getHeader("Authorization"));
-                UserAccount userAccount = userAccountRepository.findById(credentials[0]).orElseThrow(RuntimeException::new);
-                if (!BCrypt.checkpw(credentials[1], userAccount.getPassword())) {
+                UserAccount userAccount = userAccountRepository.findById(credentials[0]).orElseThrow(RuntimeException :: new);
+                if ( ! BCrypt.checkpw(credentials[1], userAccount.getPassword()) ) {
                     throw new RuntimeException();
                 }
-                Set<String> roles = userAccount.getRoles().stream().map(Role::name).collect(Collectors.toSet());
+                Set<String> roles = userAccount.getRoles().stream().map(Role :: name).collect(Collectors.toSet());
                 request = new WrappedRequest(request, credentials[0], roles);
             } catch (RuntimeException e) {
                 response.sendError(401);
@@ -49,9 +49,9 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkEndpoint(String method, String servletPath) {
-        return !(
+        return ! (
                 (HttpMethod.POST.matches(method) && servletPath.matches("/account/register"))
-                || servletPath.matches("/forum/posts/.*")
+                        || servletPath.matches("/forum/posts/.*")
         );
     }
 
@@ -65,7 +65,7 @@ public class AuthenticationFilter implements Filter {
         private String login;
         private Set<String> roles;
 
-        public WrappedRequest(HttpServletRequest request, String login,Set<String> roles) {
+        public WrappedRequest(HttpServletRequest request, String login, Set<String> roles) {
             super(request);
             this.login = login;
             this.roles = roles;
@@ -73,7 +73,7 @@ public class AuthenticationFilter implements Filter {
 
         @Override
         public Principal getUserPrincipal() {
-            return new User(login,roles);
+            return new User(login, roles);
         }
     }
 }

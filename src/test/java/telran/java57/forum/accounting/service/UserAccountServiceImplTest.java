@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-// аннотация для использования Mockito в тестах
+
 @ExtendWith(MockitoExtension.class)
 public class UserAccountServiceImplTest {
 
@@ -31,11 +31,10 @@ public class UserAccountServiceImplTest {
     private static final String LOGIN = "testUser";
     private static final String OLD_PASSWORD = "oldPassword";
     private static final String NEW_PASSWORD = "newPassword";
-    private static final String HASHED_OLD_PASSWORD = "$2a$10$ABC123"; // Мок хешированного пароля
+    private static final String HASHED_OLD_PASSWORD = "$2a$10$ABC123";
 
     @BeforeEach
     void setUp() {
-        // Используем конструктор вместо сеттера, чтобы избежать проблем с инициализацией
         testUser = new UserAccount(LOGIN, HASHED_OLD_PASSWORD, "Test", "User");
     }
 
